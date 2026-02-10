@@ -3,76 +3,119 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
 export default function Signup() {
-  const navigate = useNavigate();
+    const navigate = useNavigate();
+    const [form, setForm] = useState({
+        name: "",
+        email: "",
+        password: "",
+    });
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState("");
+    const handleChange = (e) => {
+        setForm({ ...form, [e.target.name]: e.target.value });
+    };
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        setLoading(true);
+        setError("");
 
-  const [form, setForm] = useState({
-    name: "",
-    email: "",
-    password: "",
-  });
+        try {
+            await axios.post("http://localhost:5000/api/auth/signup", form);
 
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
+            // Redirect to login after signup
+            navigate("/");
+        } catch (err) {
+            setError(err.response?.data?.message || "Signup failed");
+        } finally {
+            setLoading(false);
+        }
+    };
 
-  const handleChange = (e) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
-  };
+    return (
+        <div className="min-h-screen flex items-center justify-center bg-black text-gray-100 px-4">
+            <div className="w-full max-w-md bg-neutral-900 border border-neutral-800 rounded-2xl p-6 shadow-lg shadow-black/50">
+                <div className="mb-6">
+                    <h1 className="text-xl font-bold text-white text-center underline underline-offset-4 decoration-4 decoration-indigo-500">Create account</h1>
+                </div>
+                {error && (
+                    <div className="mb-4 rounded-md border border-red-500/40 bg-red-500/10 px-3 py-2 text-sm text-red-200">
+                        {error}
+                    </div>
+                )}
+                <form onSubmit={handleSubmit} className="space-y-4">
+                    <div>
+                        <label
+                            htmlFor="name"
+                            className="block text-xs font-medium text-gray-400 mb-1.5 uppercase tracking-wide"
+                        >
+                            Full name
+                        </label>
+                        <input
+                            id="name"
+                            type="text"
+                            name="name"
+                            placeholder="Your name"
+                            value={form.name}
+                            onChange={handleChange}
+                            required
+                            className="w-full bg-neutral-900 border border-neutral-800 rounded-2xl px-3 py-2.5 text-sm text-white placeholder:text-gray-500 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 outline-none"
+                        />
+                    </div>
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setLoading(true);
-    setError("");
+                    <div>
+                        <label
+                            htmlFor="email"
+                            className="block text-xs font-medium text-gray-400 mb-1.5 uppercase tracking-wide"
+                        >
+                            Email
+                        </label>
+                        <input
+                            id="email"
+                            type="email"
+                            name="email"
+                            placeholder="you@example.com"
+                            value={form.email}
+                            onChange={handleChange}
+                            required
+                            className="w-full bg-neutral-900 border border-neutral-800 rounded-2xl px-3 py-2.5 text-sm text-white placeholder:text-gray-500 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 outline-none"
+                        />
+                    </div>
 
-    try {
-      await axios.post("http://localhost:5000/api/auth/signup", form);
+                    <div>
+                        <label
+                            htmlFor="password"
+                            className="block text-xs font-medium text-gray-400 mb-1.5 uppercase tracking-wide"
+                        >
+                            Password
+                        </label>
+                        <input
+                            id="password"
+                            type="password"
+                            name="password"
+                            placeholder="Create a password"
+                            value={form.password}
+                            onChange={handleChange}
+                            required
+                            className="w-full bg-neutral-900 border border-neutral-800 rounded-2xl px-3 py-2.5 text-sm text-white placeholder:text-gray-500 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 outline-none"
+                        />
+                    </div>
 
-      // Redirect to login after signup
-      navigate("/");
-    } catch (err) {
-      setError(err.response?.data?.message || "Signup failed");
-    } finally {
-      setLoading(false);
-    }
-  };
+                    <button
+                        type="submit"
+                        disabled={loading}
+                        className="mt-2 w-full rounded-2xl bg-indigo-600 px-4 py-2.5 text-sm font-semibold text-white hover:bg-indigo-500 disabled:opacity-60 disabled:cursor-not-allowed transition-all"
+                    >
+                        {loading ? "Creating account..." : "Sign up"}
+                    </button>
+                </form>
 
-  return (
-    <div className="auth-container">
-      <h2>Signup</h2>
-
-      <form onSubmit={handleSubmit}>
-        <input
-          type="text"
-          name="name"
-          placeholder="Full Name"
-          value={form.name}
-          onChange={handleChange}
-          required
-        />
-
-        <input
-          type="email"
-          name="email"
-          placeholder="Email"
-          value={form.email}
-          onChange={handleChange}
-          required
-        />
-
-        <input
-          type="password"
-          name="password"
-          placeholder="Password"
-          value={form.password}
-          onChange={handleChange}
-          required
-        />
-
-        <button type="submit" disabled={loading}>
-          {loading ? "Creating account..." : "Signup"}
-        </button>
-      </form>
-
-      {error && <p style={{ color: "red" }}>{error}</p>}
-    </div>
-  );
+                <p className="mt-6 text-sm text-gray-400">
+                    Already have an account?{" "}
+                    <a href="/" className="font-medium text-indigo-400 hover:text-indigo-300">
+                        Login
+                    </a>
+                </p>
+            </div>
+        </div>
+    );
 }

@@ -1,42 +1,54 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap");
+
+html,
+body {
+  background-color: #000;
+  color: #e5e5e5;
+  font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
 #root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
+  min-height: 100vh;
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+/* Matte black task card with animated rainbow border on hover */
+.task-card {
+  position: relative;
+  padding: 1px;
+  border-radius: 0.75rem;
+  background-image: linear-gradient(
+    90deg,
+    #ff0080,
+    #ff8c00,
+    #ffd300,
+    #00ffa3,
+    #00c3ff,
+    #7b61ff,
+    #ff0080
+  );
+  background-size: 200% 200%;
+  background-position: 0% 50%;
+  transition: background-position 0.4s ease-out, box-shadow 0.25s ease-out;
 }
 
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
+.task-card-inner {
+  border-radius: inherit;
+  background-color: #050505;
+}
+
+.task-card:hover {
+  animation: rainbow-border 4s linear infinite;
+  box-shadow: 0 0 12px rgba(255, 255, 255, 0.06);
+}
+
+@keyframes rainbow-border {
+  0% {
+    background-position: 0% 50%;
   }
-  to {
-    transform: rotate(360deg);
+  100% {
+    background-position: 200% 50%;
   }
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
-}
-
-.card {
-  padding: 2em;
-}
-
-.read-the-docs {
-  color: #888;
 }
