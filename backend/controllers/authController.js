@@ -25,11 +25,11 @@ export const signup = (req, res) => {
 };
 
 export const login = (req, res) => {
-  const { email, password, role } = req.body;
+  const { email, password } = req.body;
 
   pool.query(
-    "SELECT * FROM users WHERE email=? AND role=?",
-    [email, role],
+    "SELECT * FROM users WHERE email=?",
+    [email],
     async (err, results) => {
       if (err) return res.status(500).json({ message: err.message });
 
@@ -43,14 +43,18 @@ export const login = (req, res) => {
         return res.status(400).json({ message: "Invalid credentials" });
 
       const token = jwt.sign(
-        { id: user.id, role: user.role },
+        { id: user.id },   // role removed
         process.env.JWT_SECRET,
         { expiresIn: "7d" }
       );
 
       res.json({
         token,
-        user: { id: user.id, name: user.name, email: user.email, role: user.role },
+        user: {
+          id: user.id,
+          name: user.name,
+          email: user.email
+        },
       });
     }
   );
