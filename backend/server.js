@@ -9,7 +9,12 @@ import taskRoutes from "./routes/taskRoutes.js";
 dotenv.config();
 const app = express();
 
-app.use(cors({ origin: true, credentials: true }));
+app.use(
+  cors({
+    origin: "https://notes-app-kush.vercel.app",
+    credentials: true,
+  })
+);
 app.use(express.json());
 
 app.use("/", authRoutes);
