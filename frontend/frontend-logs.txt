@@ -1,0 +1,2 @@
+App.jsx:10 Frontend Running!
+installHook.js:1 Frontend Running!

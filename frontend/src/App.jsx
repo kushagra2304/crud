@@ -3,8 +3,12 @@ import LoginPage from "./pages/LoginPage";
 import SignupPage from "./pages/SignupPage";
 import DashboardPage from "./pages/DashboardPage";
 import ProtectedRoute from "./components/common/ProtectedRoute";
+import { useEffect } from "react";
 
 function App() {
+  useEffect(() => {
+    console.log("Frontend Running!");
+  }, []);
   return (
     <BrowserRouter>
       <Routes>
