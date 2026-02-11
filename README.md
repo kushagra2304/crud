@@ -109,16 +109,6 @@ App → `http://localhost:5173`
 
 ---
 
-## 📈 Production Notes
-
-- Use HTTP-Only cookies for JWT
-- Add rate limiting & Helmet
-- Deploy on Render / Railway / AWS
-- Use managed MySQL / PostgreSQL
-- Add pagination & indexing
-- Docker + CI/CD ready structure
-
----
 
 ## 👨‍💻 Author
 
